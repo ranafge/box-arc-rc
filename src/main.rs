@@ -1,3 +1,5 @@
+use std::sync::Arc;
+
 pub trait Vechicle {
     fn drive(&self);
 }
@@ -41,15 +43,34 @@ impl Vechicle for Truck {
 
 #[derive(Debug)]
 struct Truck {
-    capacity: i32
+    capacity: i32,
 }
 
-use std::rc::Rc;
+
+
 fn main() {
-    let (capacity_1, capacity_2, capacity_3) = (Rc::new(Truck{capacity: 1}),Rc::new( Truck {capacity:2}), Rc::new(Truck{capacity:3}));
-    let truck_capacity_vec = vec![Rc::clone(&capacity_1), capacity_2];
-    let truck_capacity_vec2 = vec![capacity_1, capacity_3];
-    println!("vec capacity one {:?}, vec capacity two {:?}", truck_capacity_vec, truck_capacity_vec2);
+    let (truck_a, truck_b, truck_c) = (
+       Arc::new(Truck { capacity: 1 }),
+       Arc::new(Truck { capacity: 2 }),
+       Arc::new(Truck { capacity: 3 }),
+    );
+    let facility_one = vec![Arc::clone(&truck_a), Arc::clone(&truck_b)];
+    // here truck_b is move below
+    // USE Arc::CLONE OF TRUCK_B 
+    let facility_two = vec![Arc::clone(&truck_b), Arc::clone(&truck_c)];
 
+    let thread = std::thread::spawn(|| {
+        println!("Facility one vec {:?}", facility_one);
+        println!("Facility one vec {:?}", facility_two);
+        (facility_one, facility_two)
+    });
+    let facility_thead = thread.join().unwrap();
 
+    // println!("Facility one vec {:?}", facility_one);
+    // println!("Facility one vec {:?}", facility_two);
+    println!("strong count {:?}", Arc::strong_count(&truck_b));
+    println!("strong count {:?}", Arc::strong_count(&truck_b));
+    // std::mem::drop(facility_two);
+    // println!("Facility one after drop facility tow {:?}", facility_one);
+    println!("strong count {:?}", Arc::strong_count(&truck_b));
 }
