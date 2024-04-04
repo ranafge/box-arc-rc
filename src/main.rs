@@ -1,4 +1,5 @@
-use std::sync::Arc;
+use core::fmt;
+use std::{fmt::Display, sync::Arc};
 
 pub trait Vechicle {
     fn drive(&self);
@@ -46,8 +47,26 @@ struct Truck {
     capacity: i32,
 }
 
+#[derive(Debug)]
+enum CustomError {
+    CannotBeZero
+}
 
+fn add_custom_error(a: i32, b:i32) -> Result<i32, CustomError> {
+    if a == 0 || b == 0 {
+        return Err(CustomError::CannotBeZero);
+    }
 
+    Ok(a + b)
+}
+
+impl Display for CustomError {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            CustomError::CannotBeZero => write!(f, "Cannot be zero number provie"),
+        }
+    }
+}
 fn main() {
     let (truck_a, truck_b, truck_c) = (
        Arc::new(Truck { capacity: 1 }),
@@ -73,4 +92,9 @@ fn main() {
     // std::mem::drop(facility_two);
     // println!("Facility one after drop facility tow {:?}", facility_one);
     println!("strong count {:?}", Arc::strong_count(&truck_b));
+    let result = add_custom_error(4, 0);
+    match result {
+        Ok(value) => println!("The sum is {}", value),
+        Err(e) => println!("An error occurred: {:?}", e),
+    };
 }
