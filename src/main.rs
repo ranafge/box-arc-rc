@@ -13,34 +13,6 @@ impl Vechicle for Truck {
     }
 }
 
-// fn main() {
-//     // Every this is in stack . stack is much faster than heap. The problem is compile time mush know the size
-//     let t: Box<dyn Vechicle>;
-//     // here in line below due to avoid the mismatch type need to wrap with Box::new. Now error gone and its working.
-//     t = Box::new(Truck);
-//     t.drive();
-// }
-
-// Box is used in another data type like recrusive
-
-// #[derive(Debug)]
-// struct Truck{
-//     //optiion is used to repetaed value which mean next truck can either contain a truck or be none
-//     // for this reason it is recursive
-//     // to resolve the above problem use Box data type
-//     next_truck: Option<Box<Truck>>
-// }
-
-// fn main() {
-//     let t = Some(Box::new(Truck {next_truck: None}));
-
-//     // we can use match statement for the next_truck field becuse its contain OPTION ENUM
-//     match Some(t) {
-//         Some(v) => println!("{:?}", v),
-//         None => println!("none")
-//     }
-
-// }
 
 #[derive(Debug)]
 struct Truck {
@@ -67,7 +39,20 @@ impl Display for CustomError {
         }
     }
 }
+
+
+
+mod data_types;
+
+use data_types::casting::casting;
+use data_types::literals::literals;
 fn main() {
+    println!("{:?}", casting());
+    println!("{}", 33322232_i32);
+    println!("{}", 333333223_u64);
+    println!("{}", 222323_i32 as u128);
+    println!("{:?}", literals());
+
     let (truck_a, truck_b, truck_c) = (
        Arc::new(Truck { capacity: 1 }),
        Arc::new(Truck { capacity: 2 }),
