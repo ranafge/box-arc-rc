@@ -46,12 +46,14 @@ mod data_types;
 
 use data_types::casting::casting;
 use data_types::literals::literals;
+use data_types::inference::inference;
 fn main() {
     println!("{:?}", casting());
     println!("{}", 33322232_i32);
     println!("{}", 333333223_u64);
     println!("{}", 222323_i32 as u128);
     println!("{:?}", literals());
+    println!("{:?}", inference());
 
     let (truck_a, truck_b, truck_c) = (
        Arc::new(Truck { capacity: 1 }),
