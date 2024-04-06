@@ -14,3 +14,15 @@ pub fn inference() {
     println!("{:?}", vec);
     
 }
+
+use std::convert::Into;
+
+struct Number {
+    value: i32,
+}
+
+impl Into<Number> for i32 {
+    fn into(self) -> Number {
+        Number{value: self }
+    }
+}
