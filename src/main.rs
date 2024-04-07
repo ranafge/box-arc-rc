@@ -47,7 +47,9 @@ mod data_types;
 use data_types::casting::casting;
 use data_types::literals::literals;
 use data_types::inference::inference;
+use data_types::rwlock::rwlock;
 fn main() {
+    println!("{:?}", rwlock());
     println!("{:?}", casting());
     println!("{}", 33322232_i32);
     println!("{}", 333333223_u64);
