@@ -15,10 +15,10 @@ pub fn rwlock() {
     let read2 = my_rwlock.read().unwrap(); // two .read() is also fine
     // println!("{:?} {:?}", read1, read2 );
     // let write1 = my_rwlock.write().unwrap(); // now the programm will wait forever
-    // std::mem::drop(read1);
-    // std::mem::drop(read2);
-    // let mut write1 = my_rwlock.write().unwrap();
-    // *write1 += 10;
+    std::mem::drop(read1);
+    std::mem::drop(read2);
+    let mut write1 = my_rwlock.write().unwrap();
+    *write1 += 10;
     // println!("{:?}", *write1);
     // we can also try_read or try_write
 
